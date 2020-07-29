@@ -13,5 +13,6 @@ The server is based on ubuntu 16 using nginx 1.18 with the RTMP streaming module
 
 # TODO 
 
-1. Move first shell provisioner into file
-2. Terraform remote state
+1. Add FW rules to TF state
+2. Move first shell provisioner into file
+3. Terraform remote state
