@@ -1,5 +1,5 @@
 resource "google_compute_instance" "default" {
-  name         = "test"
+  name         = "nginx-rtmp-tf"
   machine_type = "g1-small"
   zone         = "us-west1-b"
   project = "mixfreely"
