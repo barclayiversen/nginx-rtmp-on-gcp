@@ -1,0 +1,56 @@
+{
+    "description": "nginx rtmp streaming server",
+    "variables": {
+        "project": "{{env `PROJECT`}}",
+        "subnet": "{{env `SUBNET`}}",
+        "network": "{{env `NETWORK`}}"
+    },
+    "builders": [
+        {
+            "type": "googlecompute",
+            "zone": "us-west1-a",
+            "project_id": "{{user `project`}}",
+            "instance_name": "nginx-builder",
+            "image_family": "nginx-rtmp",
+            "image_name": "nginx-rtmp-{{timestamp}}",
+            "ssh_username": "root",
+            "source_image": "ubuntu-1604-xenial-v20200722",
+            "disk_size": "10",
+            "machine_type": "n1-standard-2"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "sudo apt update",
+                "sudo apt upgrade -y",
+                "git clone https://github.com/sergey-dryabzhinsky/nginx-rtmp-module.git",
+                "sudo apt install build-essential libpcre3 libpcre3-dev libssl-dev zlib1g zlib1g-dev -y",
+                "wget https://nginx.org/download/nginx-1.18.0.tar.gz",
+                "tar -xf nginx-1.18.0.tar.gz",
+                "cd nginx-1.18.0/",
+                "sudo ./configure --with-http_ssl_module --add-module=../nginx-rtmp-module",
+                "sudo make",
+                "sudo make install",
+                "sudo mkdir -p /nginx/hls"
+            ]
+        },
+        {
+            "type" : "file",
+            "source": "./nginx.conf",
+            "destination": "/usr/local/nginx/conf/"
+        },
+        {
+            "type" : "file",
+            "source": "./nginx.service",
+            "destination": "/lib/systemd/system/"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo systemctl enable nginx"
+            ]
+        }
+    ]
+}
