@@ -13,6 +13,7 @@
             "instance_name": "nginx-builder",
             "image_family": "nginx-rtmp",
             "image_name": "nginx-rtmp-{{timestamp}}",
+            "image_storage_locations": ["us-west1"],
             "ssh_username": "root",
             "source_image": "ubuntu-1604-xenial-v20200722",
             "disk_size": "10",
