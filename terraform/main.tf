@@ -2,7 +2,7 @@ resource "google_compute_instance" "default" {
   name         = "nginx-rtmp-tf"
   machine_type = "g1-small"
   zone         = "us-west1-b"
-  project = "mixfreely"
+  project = var.project_id
 
   tags = ["obs", "rtmp", "http-server", "https-server"]
 
@@ -33,7 +33,7 @@ resource "google_compute_instance" "default" {
 resource "google_compute_firewall" "rtmp" {
   name    = "allow-rtmp-tf"
   network = "default"
-  project = "mixfreely"
+  project = var.project_id
   
   allow {
     protocol = "tcp"
@@ -47,12 +47,12 @@ resource "google_compute_firewall" "rtmp" {
 resource "google_compute_firewall" "nofw" {
   name    = "no-fw-tf"
   network = "default"
-  project = "mixfreely"
+  project = var.project_id
   
   allow {
     protocol = "all"
   }
 
   target_tags = ["obs"]
-  source_ranges = ["157.131.140.58"]
+  source_ranges = []
 }
