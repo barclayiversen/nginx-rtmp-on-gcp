@@ -29,3 +29,30 @@ resource "google_compute_instance" "default" {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
   }
 }
+
+resource "google_compute_firewall" "rtmp" {
+  name    = "allow-rtmp-tf"
+  network = "default"
+  project = "mixfreely"
+  
+  allow {
+    protocol = "tcp"
+    ports    = ["1935"]
+  }
+
+  target_tags = ["rtmp"]
+  source_ranges = ["0.0.0.0/0"]
+}
+
+resource "google_compute_firewall" "nofw" {
+  name    = "no-fw-tf"
+  network = "default"
+  project = "mixfreely"
+  
+  allow {
+    protocol = "all"
+  }
+
+  target_tags = ["obs"]
+  source_ranges = ["157.131.140.58"]
+}
