@@ -2,3 +2,7 @@
 terraform/terraform\.tfstate\.backup
 .terraform
 
+
+terraform/compute/terraform\.tfstate\.backup
+
+terraform/network/terraform\.tfstate\.backup
