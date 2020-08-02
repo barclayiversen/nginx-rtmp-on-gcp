@@ -1,1 +1,1 @@
-output "rtmp_ip" { value = google_compute_address.static.address }
+output "rtmp_ip" { value = google_compute_address.rtmp.address }
