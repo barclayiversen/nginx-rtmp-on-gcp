@@ -1,8 +1,8 @@
 resource "google_compute_instance" "default" {
+  project = var.project_id
   name         = "nginx-rtmp-tf"
   machine_type = "g1-small"
   zone         = "us-west1-b"
-  project = var.project_id
 
   tags = ["obs", "rtmp", "http-server", "https-server"]
 
@@ -18,7 +18,7 @@ resource "google_compute_instance" "default" {
     network = "default"
 
     access_config {
-
+      nat_ip = data.terraform_remote_state.foundation.outputs.rtmp_ip
     }
   }
 
@@ -31,9 +31,9 @@ resource "google_compute_instance" "default" {
 }
 
 resource "google_compute_firewall" "rtmp" {
+  project = var.project_id
   name    = "allow-rtmp-tf"
   network = "default"
-  project = var.project_id
   
   allow {
     protocol = "tcp"
@@ -45,10 +45,10 @@ resource "google_compute_firewall" "rtmp" {
 }
 
 resource "google_compute_firewall" "nofw" {
+  project = var.project_id
   name    = "no-fw-tf"
   network = "default"
-  project = var.project_id
-  
+    
   allow {
     protocol = "all"
   }
