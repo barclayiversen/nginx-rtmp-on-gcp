@@ -18,7 +18,7 @@ resource "google_compute_instance" "default" {
     network = "default"
 
     access_config {
-
+      nat_ip = data.terraform_remote_state.foundation.outputs.rtmp_ip
     }
   }
 
